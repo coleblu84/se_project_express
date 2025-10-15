@@ -1,6 +1,5 @@
 const Item = require("../models/clothingItem");
 
-
 const getItems = (req, res) => {
   Item.find({})
     .then((items) => res.status(200).send(items))
@@ -11,7 +10,8 @@ const getItems = (req, res) => {
 };
 
 const createItem = (req, res) => {
-  const { name, weather, imageUrl, owner } = req.body;
+  const { name, weather, imageUrl } = req.body;
+  const owner = req.user._id;
 
   Item.create({ name, weather, imageUrl, owner })
     .then((item) => res.status(201).send(item))
@@ -23,7 +23,6 @@ const createItem = (req, res) => {
       return res.status(500).send({ message: "Internal server error" });
     });
 };
-
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
@@ -43,9 +42,8 @@ const deleteItem = (req, res) => {
     });
 };
 
-
 const likeItem = (req, res) => {
-  ClothingItem.findByIdAndUpdate(
+  Item.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } }, // add _id if not already present
     { new: true }
@@ -64,9 +62,8 @@ const likeItem = (req, res) => {
     });
 };
 
-
 const dislikeItem = (req, res) => {
-  ClothingItem.findByIdAndUpdate(
+  Item.findByIdAndUpdate(
     req.params.itemId,
     { $pull: { likes: req.user._id } }, // remove _id from likes
     { new: true }
@@ -92,4 +89,3 @@ module.exports = {
   likeItem,
   dislikeItem,
 };
-
