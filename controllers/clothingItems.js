@@ -1,6 +1,6 @@
 const Item = require("../models/clothingItem");
 
-// GET /items — return all clothing items
+
 const getItems = (req, res) => {
   Item.find({})
     .then((items) => res.status(200).send(items))
@@ -10,7 +10,6 @@ const getItems = (req, res) => {
     });
 };
 
-// POST /items — create a new clothing item
 const createItem = (req, res) => {
   const { name, weather, imageUrl, owner } = req.body;
 
@@ -25,7 +24,7 @@ const createItem = (req, res) => {
     });
 };
 
-// DELETE /items/:itemId — delete a clothing item by ID
+
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
@@ -44,7 +43,7 @@ const deleteItem = (req, res) => {
     });
 };
 
-// PUT /items/:itemId/likes — like an item
+
 const likeItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
@@ -65,7 +64,7 @@ const likeItem = (req, res) => {
     });
 };
 
-// DELETE /items/:itemId/likes — unlike an item
+
 const dislikeItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
