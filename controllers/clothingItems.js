@@ -1,11 +1,14 @@
 const Item = require("../models/clothingItem");
+const { HTTP_STATUS_CODES } = require("../utils/constants");
 
 const getItems = (req, res) => {
   Item.find({})
-    .then((items) => res.status(200).send(items))
+    .then((items) => res.status(HTTP_STATUS_CODES.OK).send(items))
     .catch((err) => {
       console.error(err);
-      res.status(500).send({ message: "Internal server error" });
+      res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -14,13 +17,17 @@ const createItem = (req, res) => {
   const owner = req.user._id;
 
   Item.create({ name, weather, imageUrl, owner })
-    .then((item) => res.status(201).send(item))
+    .then((item) => res.status(HTTP_STATUS_CODES.OK).send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: "Invalid item data" });
+        return res
+          .status(HTTP_STATUS_CODES.NOT_FOUND)
+          .send({ message: "Requested resource not found" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -29,56 +36,76 @@ const deleteItem = (req, res) => {
 
   Item.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(200).send({ message: "Item deleted", item }))
+    .then((item) =>
+      res.status(HTTP_STATUS_CODES.OK).send({ message: "Item deleted", item })
+    )
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({ message: "Item not found" });
+        return res
+          .status(HTTP_STATUS_CODES.NOT_FOUND)
+          .send({ message: "Requested resource not found" });
       }
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID format" });
+        return res
+          .status(HTTP_STATUS_CODES.BAD_REQUEST)
+          .send({ message: "Invalid data provided" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
 const likeItem = (req, res) => {
   Item.findByIdAndUpdate(
     req.params.itemId,
-    { $addToSet: { likes: req.user._id } }, // add _id if not already present
+    { $addToSet: { likes: req.user._id } },
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send(item))
+    .then((item) => res.status(HTTP_STATUS_CODES.OK).send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({ message: "Item not found" });
+        return res
+          .status(HTTP_STATUS_CODES.NOT_FOUND)
+          .send({ message: "Requested resource not found" });
       }
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID format" });
+        return res
+          .status(HTTP_STATUS_CODES.BAD_REQUEST)
+          .send({ message: "Invalid data provided" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
 const dislikeItem = (req, res) => {
   Item.findByIdAndUpdate(
     req.params.itemId,
-    { $pull: { likes: req.user._id } }, // remove _id from likes
+    { $pull: { likes: req.user._id } },
     { new: true }
   )
     .orFail()
-    .then((item) => res.status(200).send(item))
+    .then((item) => res.status(HTTP_STATUS_CODES.OK).send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({ message: "Item not found" });
+        return res
+          .status(HTTP_STATUS_CODES.NOT_FOUND)
+          .send({ message: "Requested resource not found" });
       }
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID format" });
+        return res
+          .status(HTTP_STATUS_CODES.BAD_REQUEST)
+          .send({ message: "Invalid data provided" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
