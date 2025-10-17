@@ -22,8 +22,8 @@ const createItem = (req, res) => {
       console.error(err);
       if (err.name === "ValidationError") {
         return res
-          .status(HTTP_STATUS_CODES.NOT_FOUND)
-          .send({ message: "Requested resource not found" });
+          .status(HTTP_STATUS_CODES.BAD_REQUEST)
+          .send({ message: "Invalid data provided" });
       }
       return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
