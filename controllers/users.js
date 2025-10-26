@@ -46,7 +46,6 @@ const createUser = (req, res) => {
     });
 };
 
-
 const login = (req, res) => {
   const { email, password } = req.body;
 
@@ -65,12 +64,10 @@ const login = (req, res) => {
     });
 };
 
-
 const getCurrentUser = (req, res) => {
   const userId = req.user._id;
 
   User.findById(userId)
-    .orFail()
     .then((user) => res.status(HTTP_STATUS_CODES.OK).send(user))
     .catch((err) => {
       console.error(err);
@@ -105,7 +102,6 @@ const updateCurrentUser = (req, res) => {
       runValidators: true,
     }
   )
-    .orFail()
     .then((user) => res.status(HTTP_STATUS_CODES.OK).send(user))
     .catch((err) => {
       console.error(err);

@@ -42,7 +42,6 @@ const deleteItem = (req, res) => {
   const currentUserId = req.user._id;
 
   Item.findById(itemId)
-    .orFail()
     .then((item) => {
       if (item.owner.toString() !== currentUserId) {
         return res
@@ -78,7 +77,6 @@ const likeItem = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
-    .orFail()
     .then((item) => res.status(HTTP_STATUS_CODES.OK).send(item))
     .catch((err) => {
       console.error(err);
