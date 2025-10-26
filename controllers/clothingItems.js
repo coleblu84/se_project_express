@@ -2,6 +2,12 @@ const Item = require("../models/clothingItem");
 const { HTTP_STATUS_CODES } = require("../utils/constants");
 
 const getItems = (req, res) => {
+  if (!req.user) {
+    return res
+      .status(HTTP_STATUS_CODES.UNAUTHORIZED)
+      .send({ message: "Authentication required" });
+  }
+
   Item.find({})
     .then((items) => res.status(HTTP_STATUS_CODES.OK).send(items))
     .catch((err) => {
@@ -44,12 +50,9 @@ const deleteItem = (req, res) => {
           .send({ message: "You do not have permission to delete this item" });
       }
 
-      return Item.findByIdAndDelete(itemId)
-        .then(() =>
-          res
-            .status(HTTP_STATUS_CODES.OK)
-            .send({ message: "Item deleted", item })
-        );
+      return Item.findByIdAndDelete(itemId).then(() =>
+        res.status(HTTP_STATUS_CODES.OK).send({ message: "Item deleted", item })
+      );
     })
     .catch((err) => {
       console.error(err);
