@@ -25,7 +25,7 @@ const createItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      return res
+      res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -33,12 +33,24 @@ const createItem = (req, res) => {
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
+  const currentUserId = req.user._id;
 
-  Item.findByIdAndDelete(itemId)
+  Item.findById(itemId)
     .orFail()
-    .then((item) =>
-      res.status(HTTP_STATUS_CODES.OK).send({ message: "Item deleted", item })
-    )
+    .then((item) => {
+      if (item.owner.toString() !== currentUserId) {
+        return res
+          .status(HTTP_STATUS_CODES.FORBIDDEN)
+          .send({ message: "You do not have permission to delete this item" });
+      }
+
+      return Item.findByIdAndDelete(itemId)
+        .then(() =>
+          res
+            .status(HTTP_STATUS_CODES.OK)
+            .send({ message: "Item deleted", item })
+        );
+    })
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
@@ -51,7 +63,7 @@ const deleteItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      return res
+      res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -77,7 +89,7 @@ const likeItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      return res
+      res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -103,7 +115,7 @@ const dislikeItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      return res
+      res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
