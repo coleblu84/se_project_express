@@ -8,14 +8,14 @@ const createUser = (req, res) => {
 
   bcrypt
     .hash(password, 10)
-    .then((hashedPassword) => {
-      return User.create({
+    .then((hashedPassword) =>
+      User.create({
         name,
         avatar,
         email,
         password: hashedPassword,
-      });
-    })
+      })
+    )
     .then((user) => {
       const userData = {
         _id: user._id,
@@ -23,7 +23,7 @@ const createUser = (req, res) => {
         avatar: user.avatar,
         email: user.email,
       };
-      res.status(HTTP_STATUS_CODES.OK).send(userData);
+      return res.status(HTTP_STATUS_CODES.OK).send(userData);
     })
     .catch((err) => {
       console.error(err);
@@ -49,25 +49,38 @@ const createUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password)
+  if (!email || !password) {
+    return res
+      .status(HTTP_STATUS_CODES.BAD_REQUEST)
+      .send({ message: "Email and password are required" });
+  }
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.send({ token });
+      return res.send({ token });
     })
     .catch((err) => {
       console.error(err);
-      res
-        .status(HTTP_STATUS_CODES.UNAUTHORIZED)
-        .send({ message: "Incorrect email or password" });
+
+      if (err.message === "Incorrect email or password") {
+        return res
+          .status(HTTP_STATUS_CODES.UNAUTHORIZED)
+          .send({ message: "Incorrect email or password" });
+      }
+
+      return res
+        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
 const getCurrentUser = (req, res) => {
   const userId = req.user._id;
 
-  User.findById(userId)
+  return User.findById(userId)
     .then((user) => res.status(HTTP_STATUS_CODES.OK).send(user))
     .catch((err) => {
       console.error(err);
@@ -94,7 +107,7 @@ const updateCurrentUser = (req, res) => {
   const userId = req.user._id;
   const { name, avatar } = req.body;
 
-  User.findByIdAndUpdate(
+  return User.findByIdAndUpdate(
     userId,
     { name, avatar },
     {

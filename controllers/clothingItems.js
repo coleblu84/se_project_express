@@ -2,17 +2,11 @@ const Item = require("../models/clothingItem");
 const { HTTP_STATUS_CODES } = require("../utils/constants");
 
 const getItems = (req, res) => {
-  if (!req.user) {
-    return res
-      .status(HTTP_STATUS_CODES.UNAUTHORIZED)
-      .send({ message: "Authentication required" });
-  }
-
   Item.find({})
     .then((items) => res.status(HTTP_STATUS_CODES.OK).send(items))
     .catch((err) => {
       console.error(err);
-      res
+      return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -31,7 +25,7 @@ const createItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      res
+      return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -42,6 +36,7 @@ const deleteItem = (req, res) => {
   const currentUserId = req.user._id;
 
   Item.findById(itemId)
+    .orFail()
     .then((item) => {
       if (item.owner.toString() !== currentUserId) {
         return res
@@ -65,7 +60,7 @@ const deleteItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      res
+      return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -77,6 +72,7 @@ const likeItem = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
+    .orFail()
     .then((item) => res.status(HTTP_STATUS_CODES.OK).send(item))
     .catch((err) => {
       console.error(err);
@@ -90,7 +86,7 @@ const likeItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      res
+      return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });
@@ -116,7 +112,7 @@ const dislikeItem = (req, res) => {
           .status(HTTP_STATUS_CODES.BAD_REQUEST)
           .send({ message: "Invalid data provided" });
       }
-      res
+      return res
         .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
         .send({ message: "An error has occurred on the server" });
     });

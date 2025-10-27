@@ -15,7 +15,7 @@ const auth = (req, res, next) => {
   try {
     const payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
-    next();
+    return next(); 
   } catch (err) {
     return res
       .status(HTTP_STATUS_CODES.UNAUTHORIZED)
