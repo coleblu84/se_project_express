@@ -1,25 +1,9 @@
 {
-  "name": "se_project_express",
-  "version": "0.1.0",
-  "description": "sprint 12 - backend",
-  "main": "app.js",
-  "scripts": {
-    "lint": "npx eslint .",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/coleblu84/se_project_express.git"
-  },
-  "author": "C.J. Cole",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/coleblu84/se_project_express/issues"
-  },
-  "homepage": "https://github.com/coleblu84/se_project_express#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cors": "^2.8.5"
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "eslint": "^9.38.0",
+    "lint": "^1.1.2"
   }
 }
