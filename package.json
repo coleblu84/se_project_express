@@ -1,9 +1,19 @@
 {
+  "name": "se_project_express",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "eslint": "^9.38.0",
-    "lint": "^1.1.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.0",
+    "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
