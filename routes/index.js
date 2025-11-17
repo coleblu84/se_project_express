@@ -2,12 +2,16 @@ const router = require("express").Router();
 const { HTTP_STATUS_CODES } = require("../utils/constants");
 
 const { createUser, login } = require("../controllers/users");
-const usersRouter = require("./users"); 
+const usersRouter = require("./users");
 const itemsRouter = require("./clothingItems");
 const auth = require("../middlewares/auth");
+const {
+  validateLogin,
+  validateUserBody,
+} = require("../middlewares/validation");
 
-router.post("/signup", createUser);
-router.post("/signin", login);
+router.post("/signup", validateUserBody, createUser);
+router.post("/signin", validateLogin, login);
 router.use("/items", itemsRouter);
 
 router.use("/users", auth, usersRouter);
