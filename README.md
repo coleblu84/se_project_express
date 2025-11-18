@@ -1,15 +1,22 @@
 # WTWR (What to Wear?): Back End
 This project served as a learning tool to understand how to build and work on the backend of a web application. It covered setting up a linter, configuring entry points, and enabling hot reloading. I also learned how to connect Mongoose to the project and worked with Schemas, Routes, and Controllers. To wrap it up, I used Postman for testing endpoints and GitHub Actions to automate code testing before submission.
 
+## 🚀 Deployment
+The link below is to the projects domain.
+
+[WTWR site](www.wtwr.app.jumpingcrab.com)
+
+
 ## 🎯 Front End of WTWR (What to Wear)
 Here is the link for the front end of the WTWR project. Go check it out!!
 
 [Front end WTWR](https://github.com/coleblu84/se_project_react.git)
 
 ## 📸 Project Pitch Video
-Chech out my Project pitch video belew. This is where I describe my project and some challenges I faced while building it. Hope you enjoy!!
+Chech out my Project pitch videos below. This is where I describe my project and some challenges I faced while building it. I included both the backend and full stack pitch videos. Hope you enjoy!!!
 
-[Project pitch video](https://drive.google.com/file/d/1wFSHHH0OJp-6V25ap0ibHrDCX7Wkns_t/view?usp=sharing)
+[Backend video](https://drive.google.com/file/d/1wFSHHH0OJp-6V25ap0ibHrDCX7Wkns_t/view?usp=sharing)
+[Full Stack video](https://drive.google.com/file/d/1-k5mbkX26kUQ3TkI4AQOQsH4wd7ADeB_/view?usp=sharing)
 
 ## 🧰 Tech Stack
 - [Express.js](https://expressjs.com/)
@@ -25,8 +32,17 @@ Chech out my Project pitch video belew. This is where I describe my project and 
 ├─ controllers
 │  ├─ clothingItems.js
 │  └─ users.js
+├─ errors
+│  ├─ BadRequestError.js
+│  ├─ ConflictError.js
+│  ├─ ForbiddenError.js
+│  ├─ NotFoundError.js
+│  └─ UnauthorizedError.js
 ├─ middlewares
-│  └─ auth.js
+│  ├─ auth.js
+│  ├─ error-headler.js
+│  ├─ logger.js
+│  └─ validation.js
 ├─ models
 │  ├─ clothingItem.js
 │  └─ user.js
@@ -43,10 +59,9 @@ Chech out my Project pitch video belew. This is where I describe my project and 
 ├─ .editorconfig
 ├─ .eslintrc
 └─ .gitignore
-
 ```
 
 ## 🚧 Feedback
-As this is a work in progess with learning the backend of the project, all feedback is welcomed. 
+As I keep working on improving my skills for both the backend and froneend, all feedback is welcome. This will help me keep moving forward and improving my knowledge. 
 
 If you see a bug - **let's kill them!**
