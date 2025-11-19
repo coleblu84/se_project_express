@@ -4,7 +4,9 @@ This project served as a learning tool to understand how to build and work on th
 ## 🚀 Deployment
 The link below is to the projects domain.
 
-[WTWR site](www.wtwr.app.jumpingcrab.com)
+[WTWR API Link](https://api.wtwr.app.jumpingcrab.com)
+
+[WTWR Site](https://www.wtwr.app.jumpingcrab.com)
 
 
 ## 🎯 Front End of WTWR (What to Wear)
@@ -40,7 +42,7 @@ Chech out my Project pitch videos below. This is where I describe my project and
 │  └─ UnauthorizedError.js
 ├─ middlewares
 │  ├─ auth.js
-│  ├─ error-headler.js
+│  ├─ error-handler.js
 │  ├─ logger.js
 │  └─ validation.js
 ├─ models

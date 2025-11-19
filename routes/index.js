@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { HTTP_STATUS_CODES } = require("../utils/constants");
 
 const { createUser, login } = require("../controllers/users");
 const usersRouter = require("./users");
@@ -10,16 +9,16 @@ const {
   validateUserBody,
 } = require("../middlewares/validation");
 
+const NotFoundError = require("../errors/NotFoundError");
+
 router.post("/signup", validateUserBody, createUser);
 router.post("/signin", validateLogin, login);
-router.use("/items", itemsRouter);
 
+router.use("/items", itemsRouter);
 router.use("/users", auth, usersRouter);
 
-router.use((req, res) => {
-  res
-    .status(HTTP_STATUS_CODES.NOT_FOUND)
-    .json({ message: "Requested resource not found" });
+router.use((req, res, next) => {
+  next(new NotFoundError("Requested resource not found"));
 });
 
 module.exports = router;
