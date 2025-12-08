@@ -8,6 +8,8 @@ The link below is to the projects domain.
 
 [WTWR Site](https://www.wtwr.app.jumpingcrab.com)
 
+*Disclosure - due to security/browser setttings, you may have to run the application in incognito mode.*
+
 
 ## 🎯 Front End of WTWR (What to Wear)
 Here is the link for the front end of the WTWR project. Go check it out!!
@@ -64,6 +66,6 @@ Chech out my Project pitch videos below. This is where I describe my project and
 ```
 
 ## 🚧 Feedback
-As I keep working on improving my skills for both the backend and froneend, all feedback is welcome. This will help me keep moving forward and improving my knowledge. 
+As I keep working on improving my skills for both the backend and fronend, all feedback is welcome. This will help me keep moving forward and improving my knowledge. 
 
 If you see a bug - **let's kill them!**
